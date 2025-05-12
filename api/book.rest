@@ -1,5 +1,5 @@
-###
+### Gets a list of all books
 GET http://localhost:3000/books
 
-###
+### Gets a list of books ranging from $20 to $40
 GET http://localhost:3000/books?filters[0][from]=20&filters[0][to]=40
