@@ -1,10 +1,15 @@
 import Router from 'koa-router';
 import adapter from '../adapter';
+import { createContext } from 'vm';
 const router = new Router();
 
 router.get('/books', async (ctx) => {
     const filters = ctx.query.filters as Array<{ from?: number, to?: number }>;
-    // TODO: validate filters
+    // Added validation to filters
+    if (!validateFilters(filters)) {
+        ctx.status = 400;
+        ctx.body = { error: `Bad request.` };
+    };
     try {
         const books = await adapter.listBooks(filters);
         ctx.body = books;
