@@ -8,15 +8,29 @@ GET http://localhost:3000/books?filters[0][from]=20&filters[0][to]=40
 GET http://localhost:3000/books/{BookID}
 
 ### Delete a book by ID
-DELETE http://localhost:3000/books/{BookID}
+DELETE http://localhost:3000/books/682a8d5779c3586cdb693dfe
 
 ### Create a book
-# POST http://localhost:3000/books
+POST http://localhost:3000/books
+Content-Type: application/json
 
 {
 "name": "Test Book",
 "author": "Test Author",
 "description": "A test book",
+"price": 99.99,
+"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
+}
+
+### Update a book
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+"id": "682a90f28e467bc6a83f041d",
+"name": "Test Book2",
+"author": "Test Author2",
+"description": "A test book2",
 "price": 99.99,
 "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
 }
