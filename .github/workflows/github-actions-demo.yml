@@ -1,6 +1,6 @@
 name: Format, Lint, Type Checking
 run-name: ${{ github.actor }} is formatting, linting and type checking.
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
     F-L-TC:
         runs-on: ubuntu-latest
