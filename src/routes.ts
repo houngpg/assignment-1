@@ -63,7 +63,7 @@ router.post("/books", async (ctx) => {
     ctx.status = 201;
     ctx.body = `Book created/updated: ${result.id}`;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     ctx.status = 500;
     ctx.body = { error: `Failed to create/update book.` };
   }
