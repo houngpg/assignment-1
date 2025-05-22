@@ -1,15 +1,20 @@
 name: Format, Lint, Type Checking
 run-name: ${{ github.actor }} is formatting, linting and type checking.
 on: [push]
-jobs: 
+jobs:
     F-L-TC:
         runs-on: ubuntu-latest
         steps:
             - name: Check out repository code
               uses: actions/checkout@v4
+            - run: npm install
             - run: echo "Running formatter ${{ github.event_name }}"
-            - run: 
+            - name: Run Prettier
+              uses: creyD/prettier_action@v4.5
+              with: 
+                prettier_options: --write **/*.{ts}
             - run: echo "Running linter ${{ github.event_name }}"
-            - run: 
+            - name: Run ESLint
+              run: npm run lint
             - run: echo "Running type checking ${{ github.event_name }}"
-            - run: 
+            - run: npm run typecheck

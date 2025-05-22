@@ -6,7 +6,8 @@
     "scripts": {
         "start-server": "ts-node src/server.ts",
         "reset-db": "ts-node seed-db.ts",
-        "lint": "tsc --noEmit"
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint . --ext .ts"
     },
     "keywords": [],
     "author": "",
