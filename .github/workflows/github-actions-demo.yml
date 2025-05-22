@@ -12,7 +12,7 @@ jobs:
             - name: Run Prettier
               uses: creyD/prettier_action@v4.5
               with: 
-                prettier_options: --write **/*.{ts}
+                prettier_options: --write **/*.ts
             - run: echo "Running linter ${{ github.event_name }}"
             - name: Run ESLint
               run: npm run lint
