@@ -29,6 +29,9 @@
         "@types/koa-qs": "^2.0.3",
         "@types/koa-router": "^7.4.8",
         "@types/node": "^22.5.5",
+        "@typescript-eslint/eslint-plugin": "^8.32.1",
+        "@typescript-eslint/parser": "^8.32.1",
+        "eslint": "^9.27.0",
         "ts-node": "^10.9.2",
         "typescript": "^5.8.3"
     }

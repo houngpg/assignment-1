@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+import { MongoClient, ServerApiVersion } from "mongodb";
 const uri = "mongodb://mongodb";
 const client = new MongoClient(uri, {
   serverApi: {

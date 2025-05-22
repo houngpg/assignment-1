@@ -61,8 +61,9 @@ router.post("/books", async (ctx) => {
     }
     await client.close();
     ctx.status = 201;
-    ctx.body = result.id;
+    ctx.body = `Book created/updated: ${result.id}`;
   } catch (error) {
+    console.log(error)
     ctx.status = 500;
     ctx.body = { error: `Failed to create/update book.` };
   }

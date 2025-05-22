@@ -1,5 +1,4 @@
 import assignment1 from "./assignment-1";
-import { client, collection } from "../src/mongo-client";
 
 export type BookID = string;
 
@@ -19,7 +18,7 @@ async function listBooks(
 }
 
 async function createOrUpdateBook(book: Book): Promise<BookID> {
-  let result = await fetch(`http://localhost:3000/books`, {
+  const result = await fetch(`http://localhost:3000/books`, {
     method: "POST",
     body: JSON.stringify(book),
     headers: {
@@ -28,7 +27,7 @@ async function createOrUpdateBook(book: Book): Promise<BookID> {
   });
 
   if (result.ok) {
-    let res = (await result.json()) as { id: BookID };
+    const res = (await result.json()) as { id: BookID };
     return res.id;
   } else {
     throw new Error("Failed to create/update book.");
@@ -36,7 +35,7 @@ async function createOrUpdateBook(book: Book): Promise<BookID> {
 }
 
 async function removeBook(book: BookID): Promise<void> {
-  let result = await fetch(`http://localhost:3000/books/${book}`, {
+  const result = await fetch(`http://localhost:3000/books/${book}`, {
     method: "DELETE",
   });
 
