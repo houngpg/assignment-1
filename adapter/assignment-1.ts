@@ -15,7 +15,7 @@ async function listBooks(
   if (!filters || filters.length === 0) {
     return books; // No filters, return all books
   }
-  console.log("running listBooks");
+  // console.log("running listBooks");
   return books.filter((book) =>
     filters.some(
       (filter) =>
