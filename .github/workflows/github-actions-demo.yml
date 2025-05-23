@@ -17,8 +17,8 @@ jobs:
               with: 
                 prettier_options: --write **/*.ts
             - run: ls -la
-            - run: echo "Running type checking ${{ github.event_name }}"
-            - run: npm run typecheck
             - run: echo "Running linter ${{ github.event_name }}"
             - name: Run ESLint
               run: npm run lint
+            - run: echo "Running type checking ${{ github.event_name }}"
+            - run: npm run typecheck
