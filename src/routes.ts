@@ -34,6 +34,7 @@ router.get("/books", async (ctx) => {
 
 // Create or update books
 router.post("/books", async (ctx) => {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const book: any = ctx.request.body;
   if (
     !book.name ||
@@ -94,6 +95,7 @@ router.delete("/books/:id", async (ctx) => {
   }
 });
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function validateFilters(filters: any): boolean {
   // Check if filters exist and are an array
   if (!filters || !Array.isArray(filters)) {
