@@ -7,18 +7,24 @@ jobs:
         steps:
             - name: Check out repository code
               uses: actions/checkout@v4
+
             - uses: actions/setup-node@v4
               with:
                 node-version: 20
             - run: npm install
+            
+            - run: ls -la
+            
+            - name: Run ESLint
+              run: echo "Running linter ${{ github.event_name }}"
+            - run: npm run lint
+            
+            - name: Run typechecking
+              run: echo "Running type checking ${{ github.event_name }}"
+            - run: npm run typecheck
+
             - run: echo "Running formatter ${{ github.event_name }}"
             - name: Run Prettier
               uses: creyD/prettier_action@v4.5
               with: 
                 prettier_options: --write **/*.ts
-            - run: ls -la
-            - run: echo "Running linter ${{ github.event_name }}"
-            - name: Run ESLint
-              run: npm run lint
-            - run: echo "Running type checking ${{ github.event_name }}"
-            - run: npm run typecheck
