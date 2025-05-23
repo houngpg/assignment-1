@@ -13,8 +13,6 @@ jobs:
                 node-version: 20
             - run: npm install
             
-            - run: ls -la
-            
             - name: Run ESLint
               run: echo "Running linter ${{ github.event_name }}"
             - run: npm run lint
