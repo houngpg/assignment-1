@@ -4,6 +4,9 @@ GET http://localhost:3000/books
 ### Gets a list of books ranging from $20 to $40
 GET http://localhost:3000/books?filters[0][from]=20&filters[0][to]=40
 
+### Gets a list of books randing from $20 to $40 and/or with the author Agatha Christie and/or including the title Iliad & Odyssey
+GET http://localhost:3000/books?filters[0][from]=20&filters[0][to]=40&filters[1][author]="Agatha Christie"&filters[2][name]="Iliad & Odyssey"
+
 ### Get a book by ID
 GET http://localhost:3000/books/{BookID}
 

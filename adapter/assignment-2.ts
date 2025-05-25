@@ -23,8 +23,8 @@ async function createOrUpdateBook(book: Book): Promise<BookID> {
     body: JSON.stringify(book),
     headers: {
       "Content-Type": "application/json",
-    },
-  });
+    }
+  })
 
   if (result.ok) {
     const res = (await result.json()) as { id: BookID };

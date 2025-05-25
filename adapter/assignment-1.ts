@@ -15,7 +15,6 @@ async function listBooks(
   if (!filters || filters.length === 0) {
     return books; // No filters, return all books
   }
-  // console.log("running listBooks");
   return books.filter((book) =>
     filters.some(
       (filter) =>
@@ -23,7 +22,6 @@ async function listBooks(
         (filter.to === undefined || book.price <= filter.to),
     ),
   );
-  // throw new Error("Todo")
 }
 
 const assignment = "assignment-1";
