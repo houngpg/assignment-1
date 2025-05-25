@@ -32,14 +32,26 @@ async function listBooks(filters?: Filter[]): Promise<Book[]> {
         return await result.json() as Book[]
     }
 
+    // Filters through each filters then joins as queryString
+    let queryArray = [] as Array<string>
+    let count = 0
     for (const filter of filters) {
-
+        if (filter.from) {
+            queryArray = [...queryArray, `filters[${count}][from]=${filter.from}`]
+        }
+        if (filter.to) {
+            queryArray = [...queryArray, `filters[${count}][to]=${filter.to}`]
+        }
+        if (filter.author) {
+            queryArray = [...queryArray, `filters[${count}][author]=${filter.author}`]
+        }
+        if (filter.name) {
+            queryArray = [...queryArray, `filters[${count}][name]=${filter.name}`]
+        }
+        count++
     }
+    const queryString = queryArray.join("&")
 
-
-
-
-    const queryString = new URLSearchParams(filters)
     result = await fetch(`http://localhost:3000/books?${queryString}`, {
         method: "GET",
         headers: {

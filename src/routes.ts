@@ -1,5 +1,5 @@
 import Router from "koa-router";
-import adapter from "../adapter";
+// import adapter from "../adapter";
 import { client, collection } from "../src/mongo-client";
 import { ObjectId } from "mongodb";
 
