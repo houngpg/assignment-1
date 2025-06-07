@@ -1,20 +1,7 @@
 import Router from "koa-router";
-// import adapter from "../adapter";
-import { client, collection } from "../src/mongo-client";
-import { ObjectId } from "mongodb";
+import { getAllBooks, createOrUpdateBook, deleteBook } from "./controllers/books";
 
 const router = new Router();
-
-export type BookID = string;
-
-export interface Book {
-  id?: BookID;
-  name: string;
-  author: string;
-  description: string;
-  price: number;
-  image: string;
-}
 
 router.get("/books", async (ctx) => {
   // Added querying for author and book title (name)
@@ -32,59 +19,62 @@ router.get("/books", async (ctx) => {
   }
 
   try {
-    await client.connect();
+    const result = await getAllBooks(filters)
+    ctx.body = result
+    // Moved to ./controllers/books.ts
+    // await client.connect();
 
-    let books = [] as Array<Book>;
-    if (!filters || filters.length === 0) {
-      ctx.body = await collection.find({}).toArray();
-      return;
-    }
+    // let books = [] as Array<Book>;
+    // if (!filters || filters.length === 0) {
+    //   ctx.body = await collection.find({}).toArray();
+    //   return;
+    // }
 
-    for (const filter of filters) {
-      const query = {} as {
-        price: { $gte?: number; $lte?: number };
-        author: string;
-        name: string;
-      };
-      const price = {} as { $gte?: number; $lte?: number };
-      // Checks if the price from and to are valid, then adds it to the query
-      if (filter.from) {
-        price["$gte"] = parseFloat(filter.from);
-      }
-      if (filter.to) {
-        price["$lte"] = parseFloat(filter.to);
-      }
-      if (Object.keys(price).length !== 0) {
-        query.price = price;
-      }
-      // Adds author and name to query
-      if (filter.author) {
-        query.author = filter.author;
-      }
-      if (filter.name) {
-        query.name = filter.name;
-      }
-      console.log(query);
+    // for (const filter of filters) {
+    //   const query = {} as {
+    //     price: { $gte?: number; $lte?: number };
+    //     author: string;
+    //     name: string;
+    //   };
+    //   const price = {} as { $gte?: number; $lte?: number };
+    //   // Checks if the price from and to are valid, then adds it to the query
+    //   if (filter.from) {
+    //     price["$gte"] = parseFloat(filter.from);
+    //   }
+    //   if (filter.to) {
+    //     price["$lte"] = parseFloat(filter.to);
+    //   }
+    //   if (Object.keys(price).length !== 0) {
+    //     query.price = price;
+    //   }
+    //   // Adds author and name to query
+    //   if (filter.author) {
+    //     query.author = filter.author;
+    //   }
+    //   if (filter.name) {
+    //     query.name = filter.name;
+    //   }
+    //   console.log(query);
 
-      const result = await collection
-        .find(query)
-        .map((doc) => {
-          const book: Book = {
-            id: doc._id.toHexString(),
-            name: doc.name,
-            image: doc.image,
-            price: doc.price,
-            author: doc.author,
-            description: doc.description,
-          };
-          return book;
-        })
-        .toArray();
-      books = [...books, ...result];
-    }
+    //   const result = await collection
+    //     .find(query)
+    //     .map((doc) => {
+    //       const book: Book = {
+    //         id: doc._id.toHexString(),
+    //         name: doc.name,
+    //         image: doc.image,
+    //         price: doc.price,
+    //         author: doc.author,
+    //         description: doc.description,
+    //       };
+    //       return book;
+    //     })
+    //     .toArray();
+    //   books = [...books, ...result];
+    // }
 
-    await client.close();
-    ctx.body = books;
+    // await client.close();
+    // ctx.body = books;
   } catch (error) {
     ctx.status = 500;
     ctx.body = { error: `Failed to fetch books due to: ${error}` };
@@ -105,21 +95,23 @@ router.post("/books", async (ctx) => {
     ctx.status = 400;
   }
   try {
-    await client.connect();
-    let result;
-    if (!book.id) {
-      result = await collection.insertOne(book);
-    } else {
-      const replacementDocument = {
-        ...book,
-        id: book.id,
-      };
-      result = await collection.replaceOne(
-        { _id: { $eq: ObjectId.createFromHexString(book.id) } },
-        replacementDocument,
-      );
-    }
-    await client.close();
+    const result = await createOrUpdateBook(book);
+    // Moved to ./controllers/books.ts
+    // await client.connect();
+    // let result;
+    // if (!book.id) {
+    //   result = await collection.insertOne(book);
+    // } else {
+    //   const replacementDocument = {
+    //     ...book,
+    //     id: book.id,
+    //   };
+    //   result = await collection.replaceOne(
+    //     { _id: { $eq: ObjectId.createFromHexString(book.id) } },
+    //     replacementDocument,
+    //   );
+    // }
+    // await client.close();
     ctx.status = 201;
     ctx.body = `Book created/updated: ${result}`;
   } catch (error) {
@@ -136,16 +128,19 @@ router.delete("/books/:id", async (ctx) => {
     ctx.status = 400;
   }
   try {
-    await client.connect();
-    const bookId = ObjectId.createFromHexString(id);
-    const deleteByID = {
-      _id: { $eq: bookId },
-    };
-    const deletedBook = await collection.deleteOne(deleteByID);
-    if (deletedBook.deletedCount === 0) {
-      throw new Error("Failed to delete book.");
-    }
-    await client.close();
+    await deleteBook(id);
+    // Moved to ./controllers/books.ts
+
+    // await client.connect();
+    // const bookId = ObjectId.createFromHexString(id);
+    // const deleteByID = {
+    //   _id: { $eq: bookId },
+    // };
+    // const deletedBook = await collection.deleteOne(deleteByID);
+    // if (deletedBook.deletedCount === 0) {
+    //   throw new Error("Failed to delete book.");
+    // }
+    // await client.close();
     ctx.status = 204;
   } catch (error) {
     ctx.status = 500;
