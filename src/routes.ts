@@ -1,7 +1,27 @@
 import Router from "koa-router";
-import { getAllBooks, createOrUpdateBook, deleteBook } from "./controllers/books";
+import { getAllBooks, createOrUpdateBook, deleteBook, getBookById } from "./controllers/books";
 
 const router = new Router();
+
+router.get("/books/:id", async (ctx) => {
+  const id = ctx.params.id;
+  if (!id) {
+    ctx.status = 400;
+    ctx.body = { error: "Book ID is required." };
+  }
+  try {
+    const result = await getBookById(id);
+    if (!result || result.length === 0) {
+      ctx.status = 404;
+      ctx.body = { error: "Book not found." };
+      return;
+    }
+    ctx.body = result;
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = { error: `Failed to fetch book by ID due to: ${error}` };
+  }
+})
 
 router.get("/books", async (ctx) => {
   // Added querying for author and book title (name)

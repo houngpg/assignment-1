@@ -63,7 +63,19 @@ async function listBooks(filters?: Filter[]): Promise<Book[]> {
         },
     });
 
-    return (await result.json()) as Book[];
+    const books = (await result.json()) as Book[];
+
+    console.log(books)
+
+    const booksWithStock: Book[] = [];
+    for (let i = 0; i < books.length; i++) {
+        const id: BookID = books[i].id;
+        const bookOnShelf = await findBookOnShelf(id);
+        booksWithStock.push({ ...books[i], stock: bookOnShelf[0].count })
+    }
+
+
+    return booksWithStock;
 }
 
 async function createOrUpdateBook(book: Book): Promise<BookID> {
@@ -75,7 +87,19 @@ async function removeBook(book: BookID): Promise<void> {
 }
 
 async function lookupBookById(book: BookID): Promise<Book> {
-    throw new Error("Todo");
+    const result = await fetch(`http://localhost:3000/books/${book}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (result.ok) {
+        const res = (await result.json()) as Book;
+        return res;
+    } else {
+        throw new Error("Failed to find book.");
+    }
 }
 
 export type ShelfId = string;
@@ -86,18 +110,54 @@ async function placeBooksOnShelf(
     numberOfBooks: number,
     shelf: ShelfId,
 ): Promise<void> {
-    throw new Error("Todo");
+    await fetch(`http://localhost:3000/books`, {
+        method: "POST",
+        body: JSON.stringify({
+            bookId,
+            numberOfBooks,
+            shelf,
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
 }
 
 async function orderBooks(order: BookID[]): Promise<{ orderId: OrderId }> {
+    const result = await fetch(`http://localhost:3000/orders`, {
+        method: "POST",
+        body: JSON.stringify({ books: order }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
 
-    throw new Error("Todo");
+    if (result.ok) {
+        const res = (await result.json()) as { orderId: OrderId };
+        return res;
+    } else {
+        throw new Error("Failed to place order.");
+    }
 }
 
 async function findBookOnShelf(
     book: BookID,
 ): Promise<Array<{ shelf: ShelfId; count: number }>> {
-    throw new Error("Todo");
+    const foundBook = await fetch(`http://localhost:3000/shelves/${book}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    if (foundBook.ok) {
+        const res = (await foundBook.json()) as Array<{
+            shelf: ShelfId;
+            count: number;
+        }>;
+        return res;
+    } else {
+        throw new Error("Failed to find book on shelf.");
+    }
 }
 
 async function fulfilOrder(
@@ -115,8 +175,44 @@ async function fulfilOrder(
 async function listOrders(): Promise<
     Array<{ orderId: OrderId; books: Record<BookID, number> }>
 > {
-    throw new Error("Todo");
+    const result = await fetch(`http://localhost:3000/orders`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (result.ok) {
+        const res = (await result.json()) as Array<{
+            orderId: OrderId;
+            books: Record<BookID, number>;
+        }>;
+        return res;
+    } else {
+        throw new Error("Failed to list orders.");
+    }
+
 }
+
+// [
+//     {
+//         orderId: "order-1",
+//         book1: {
+//             numberOfBooks: 2,
+//         }
+//         book2: {
+//             numberOfBooks: 1,
+//         }
+//     }, {
+//         orderId: "order-2",
+//         book1: {
+//             numberOfBooks: 1,
+//         }
+//         book2: {
+//             numberOfBooks: 3,
+//         }
+// ]
+
 
 const assignment = "assignment-4";
 

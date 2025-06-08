@@ -44,7 +44,7 @@ const getAllBooks = async (filters: Array<Filter>) => {
                     image: doc.image,
                     price: doc.price,
                     author: doc.author,
-                    description: doc.description,
+                    description: doc.description
                 };
                 return book;
             })
@@ -54,6 +54,16 @@ const getAllBooks = async (filters: Array<Filter>) => {
     await client.close();
     return books;
 }
+
+const getBookById = async (id: BookID) => {
+    await client.connect();
+    const bookId = ObjectId.createFromHexString(id);
+    const book = await collection.find({ _id: { $eq: bookId } }).toArray();
+
+    await client.close();
+    return book;
+}
+
 
 const createOrUpdateBook = async (book: Book) => {
     await client.connect();
@@ -90,4 +100,4 @@ const deleteBook = async (id: BookID) => {
 }
 
 
-export { getAllBooks, createOrUpdateBook, deleteBook }
+export { getAllBooks, createOrUpdateBook, deleteBook, getBookById };
