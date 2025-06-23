@@ -10,6 +10,6 @@ const client = new MongoClient(uri, {
 const database = client.db("bookstore");
 const collection = database.collection("books");
 const orderCollection = database.collection("orders");
-const shelfCollection = database.collection("sheves");
+const shelfCollection = database.collection("shelves");
 
 export { database, collection, orderCollection, shelfCollection, client };

@@ -1,6 +1,8 @@
 import Router from "koa-router";
 
-import { createOrUpdateBookStock, findBookOnShelf } from "../controllers/warehouse";
+import { createOrUpdateBookStock, findBookOnShelf, fulfillOrder } from "../controllers/warehouse";
+import { BookID } from "../constants/bookTypes";
+import { ShelfId } from "../constants/warehouseTypes";
 
 const router = new Router();
 
@@ -42,8 +44,38 @@ router.get("/:bookId", async (ctx) => {
         ctx.body = { error: "Internal Server Error" };
     }
 
+
 })
 
+
+
+
+router.put('/fulfill/:orderId', async (ctx) => {
+    const orderId = ctx.params.orderId;
+
+    const fulfillBody: any = ctx.request.body;
+
+    if (!orderId) {
+        ctx.status = 400;
+    }
+    if (!fulfillBody || fulfillBody.length === 0) {
+        ctx.status = 400;
+    }
+
+
+    try {
+        await fulfillOrder(fulfillBody, orderId);
+
+
+        ctx.status = 204;
+    } catch (error) {
+        console.error("Error message: ", error)
+        ctx.status = 500
+        ctx.body = { error: "Internal Server Error" };
+    }
+
+
+})
 
 
 export default router;

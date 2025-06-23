@@ -169,7 +169,14 @@ async function fulfilOrder(
     }>,
 ): Promise<void> {
 
-    throw new Error("Todo");
+    await fetch(`http://localhost:3000/warehouse/fulfill/${order}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(booksFulfilled)
+    })
+
 }
 
 async function listOrders(): Promise<

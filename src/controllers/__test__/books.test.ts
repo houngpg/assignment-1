@@ -19,7 +19,6 @@ beforeEach(() => {
     mockMap.mockImplementation(() => ({ toArray: mockToArray }));
 });
 
-
 describe("getAllBooks", () => {
 
     it("returns all books when no filters are provided", async () => {

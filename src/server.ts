@@ -3,15 +3,17 @@ import bodyParser from "koa-bodyparser";
 import qs from "koa-qs";
 import routes from "./routes";
 import router from './routes/index';
+import { RegisterRoutes } from "../build/routes";
 
 const app = new Koa();
 qs(app);
+
+RegisterRoutes(router);
 
 app.use(bodyParser());
 app.use(routes.allowedMethods());
 app.use(routes.routes());
 
-// register the orders routes
 app.use(router.allowedMethods());
 app.use(router.routes());
 
