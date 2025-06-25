@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start-server": "ts-node src/server.ts",
+        "start-dev": "ts-node src/app.ts",
         "reset-db": "ts-node seed-db.ts",
         "typecheck": "tsc --noEmit",
         "lint": "eslint . --ext .ts",
@@ -17,7 +18,9 @@
     "license": "ISC",
     "dependencies": {
         "@koa/cors": "^5.0.0",
-        "koa": "^2.15.3",
+        "@koa/router": "^13.1.0",
+        "@tsoa/runtime": "^6.6.0",
+        "koa": "^3.0.0",
         "koa-bodyparser": "^4.4.1",
         "koa-qs": "^3.0.0",
         "koa-router": "^13.0.1",

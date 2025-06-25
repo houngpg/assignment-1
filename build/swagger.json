@@ -24,7 +24,7 @@
 				"operationId": "GetGreeting",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Success",
 						"content": {
 							"application/json": {
 								"schema": {

@@ -2,25 +2,23 @@
 /* eslint-disable */
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import type { TsoaRoute } from '@tsoa/runtime';
-import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
+import { fetchMiddlewares, KoaTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { HelloController } from './../src/hello.route';
-import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
-
+import type { Context, Next, Middleware, Request as KRequest, Response as KResponse } from 'koa';
+import type * as KoaRouter from '@koa/router';
 
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
 };
-const templateService = new ExpressTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras","bodyCoercion":true});
+const templateService = new KoaTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras","bodyCoercion":true});
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 
-
-
-export function RegisterRoutes(app: Router) {
+export function RegisterRoutes(router: KoaRouter) {
 
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
@@ -28,39 +26,36 @@ export function RegisterRoutes(app: Router) {
     // ###########################################################################################################
 
 
-    
         const argsHelloController_getGreeting: Record<string, TsoaRoute.ParameterSchema> = {
                 name: {"in":"path","name":"name","required":true,"dataType":"string"},
         };
-        app.get('/hello/:name',
-            ...(fetchMiddlewares<RequestHandler>(HelloController)),
-            ...(fetchMiddlewares<RequestHandler>(HelloController.prototype.getGreeting)),
+        router.get('/hello/:name',
+            ...(fetchMiddlewares<Middleware>(HelloController)),
+            ...(fetchMiddlewares<Middleware>(HelloController.prototype.getGreeting)),
 
-            async function HelloController_getGreeting(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            async function HelloController_getGreeting(context: Context, next: Next) {
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsHelloController_getGreeting, request, response });
-
-                const controller = new HelloController();
-
-              await templateService.apiHandler({
-                methodName: 'getGreeting',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
+              validatedArgs = templateService.getValidatedArgs({ args: argsHelloController_getGreeting, context, next });
             } catch (err) {
-                return next(err);
+              const error = err as any;
+              error.message ||= JSON.stringify({ fields: error.fields });
+              context.status = error.status;
+              context.throw(context.status, error.message, error);
             }
+
+            const controller = new HelloController();
+
+            return templateService.apiHandler({
+              methodName: 'getGreeting',
+              controller,
+              context,
+              validatedArgs,
+              successStatus: 200,
+            });
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

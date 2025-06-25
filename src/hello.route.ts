@@ -3,6 +3,7 @@ import {
     Get,
     Path,
     Route,
+    SuccessResponse,
 } from "tsoa";
 
 
@@ -14,7 +15,8 @@ export class HelloController extends Controller {
     //  * @returns A greeting message.
     //  */
     @Get("{name}")
-    public async getGreeting(@Path() name: string): Promise<string> {
+    @SuccessResponse("200", "Success")
+    public async getGreeting(name: string): Promise<string> {
         return `Hello, ${name}!`;
     }
 }

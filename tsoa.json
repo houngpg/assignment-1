@@ -9,7 +9,7 @@
         "specVersion": 3
     },
     "routes": {
-        "routesDir": "build"
-    },
-    "middleware": "koa"
+        "routesDir": "build",
+        "middleware": "koa"
+    }
 }
