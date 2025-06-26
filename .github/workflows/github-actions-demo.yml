@@ -42,3 +42,9 @@ jobs:
             - name: Generate SDK
               run: echo "Generating SDK ${{ github.event_name }}"
             - run: npm run generatesdk
+
+            - name: Upload SDK
+              uses: actions/upload-artifact@v4
+              with:
+                name: sdk
+                path: ./client
