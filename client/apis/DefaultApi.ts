@@ -63,4 +63,30 @@ export class DefaultApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+    /**
+     */
+    async getOrdersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/orders`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async getOrders(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getOrdersRaw(initOverrides);
+    }
+
 }

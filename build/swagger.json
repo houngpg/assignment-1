@@ -46,6 +46,18 @@
 					}
 				]
 			}
+		},
+		"/orders": {
+			"get": {
+				"operationId": "GetOrders",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
 		}
 	},
 	"servers": [

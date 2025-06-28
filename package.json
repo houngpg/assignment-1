@@ -4,7 +4,7 @@
     "description": "This is a template repository for the first assignment in BVD 103 at McMaster Continuing Education.",
     "main": "index.js",
     "scripts": {
-        "start-server": "./generateSDK.sh && ts-node src/server.ts",
+        "start-server": "ts-node src/server.ts",
         "start-dev": "ts-node src/app.ts",
         "generatesdk": "./generateSDK.sh",
         "generateroutes": "npx tsoa spec-and-routes",
