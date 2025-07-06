@@ -7,11 +7,13 @@ services:
       - '8080:80'
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx-cache:/var/lib/nginx/cache
 
   front-end:
     image: ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books-docker:main
     volumes:
       - ./adapter:/source/adapter
+      - ./mcmasteful-book-list.json:/source/mcmasteful-book-list.json
 
   mongo:
     image: mongo:latest
@@ -20,7 +22,23 @@ services:
     volumes:
       - ./data:/data/db
 
-  server:
+  server1:
+    image: node:20
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: >
+      npx -y tsx ./src/server.ts
+
+  server2:
+    image: node:20
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: >
+      npx -y tsx ./src/server.ts
+
+  server3:
     image: node:20
     working_dir: /app
     volumes:
