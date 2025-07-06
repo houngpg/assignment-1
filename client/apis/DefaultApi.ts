@@ -14,6 +14,36 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  CreateOrUpdateBookStockRequest,
+  CreateOrderRequest,
+  FulfillOrderRequest,
+} from '../models/index';
+import {
+    CreateOrUpdateBookStockRequestFromJSON,
+    CreateOrUpdateBookStockRequestToJSON,
+    CreateOrderRequestFromJSON,
+    CreateOrderRequestToJSON,
+    FulfillOrderRequestFromJSON,
+    FulfillOrderRequestToJSON,
+} from '../models/index';
+
+export interface CreateOrUpdateBookStockOperationRequest {
+    createOrUpdateBookStockRequest: CreateOrUpdateBookStockRequest;
+}
+
+export interface CreateOrderOperationRequest {
+    createOrderRequest: CreateOrderRequest;
+}
+
+export interface FulfillOrderOperationRequest {
+    orderId: string;
+    fulfillOrderRequest: FulfillOrderRequest;
+}
+
+export interface GetBookOnShelfRequest {
+    bookId: string;
+}
 
 export interface GetGreetingRequest {
     name: string;
@@ -23,6 +53,176 @@ export interface GetGreetingRequest {
  * 
  */
 export class DefaultApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async createOrUpdateBookStockRaw(requestParameters: CreateOrUpdateBookStockOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['createOrUpdateBookStockRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createOrUpdateBookStockRequest',
+                'Required parameter "createOrUpdateBookStockRequest" was null or undefined when calling createOrUpdateBookStock().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/warehouse`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateOrUpdateBookStockRequestToJSON(requestParameters['createOrUpdateBookStockRequest']),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async createOrUpdateBookStock(requestParameters: CreateOrUpdateBookStockOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.createOrUpdateBookStockRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async createOrderRaw(requestParameters: CreateOrderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['createOrderRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createOrderRequest',
+                'Required parameter "createOrderRequest" was null or undefined when calling createOrder().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/orders`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateOrderRequestToJSON(requestParameters['createOrderRequest']),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async createOrder(requestParameters: CreateOrderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.createOrderRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async fulfillOrderRaw(requestParameters: FulfillOrderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['orderId'] == null) {
+            throw new runtime.RequiredError(
+                'orderId',
+                'Required parameter "orderId" was null or undefined when calling fulfillOrder().'
+            );
+        }
+
+        if (requestParameters['fulfillOrderRequest'] == null) {
+            throw new runtime.RequiredError(
+                'fulfillOrderRequest',
+                'Required parameter "fulfillOrderRequest" was null or undefined when calling fulfillOrder().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/warehouse/fulfill/{orderId}`;
+        urlPath = urlPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: FulfillOrderRequestToJSON(requestParameters['fulfillOrderRequest']),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async fulfillOrder(requestParameters: FulfillOrderOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.fulfillOrderRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getBookOnShelfRaw(requestParameters: GetBookOnShelfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters['bookId'] == null) {
+            throw new runtime.RequiredError(
+                'bookId',
+                'Required parameter "bookId" was null or undefined when calling getBookOnShelf().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/warehouse/{bookId}`;
+        urlPath = urlPath.replace(`{${"bookId"}}`, encodeURIComponent(String(requestParameters['bookId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async getBookOnShelf(requestParameters: GetBookOnShelfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.getBookOnShelfRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */
@@ -65,7 +265,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async getOrdersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getOrdersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -80,13 +280,18 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**
      */
-    async getOrders(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getOrdersRaw(initOverrides);
+    async getOrders(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.getOrdersRaw(initOverrides);
+        return await response.value();
     }
 
 }

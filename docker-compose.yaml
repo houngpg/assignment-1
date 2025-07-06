@@ -1,0 +1,29 @@
+version: "4.0"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - '8080:80'
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  front-end:
+    image: ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books-docker:main
+    volumes:
+      - ./adapter:/source/adapter
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data:/data/db
+
+  server:
+    image: node:20
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: >
+      npx -y tsx ./src/server.ts
