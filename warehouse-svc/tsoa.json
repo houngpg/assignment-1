@@ -1,0 +1,16 @@
+{
+    "entryFile": "./server.ts",
+    "noImplicitAdditionalProperties": "throw-on-extras",
+    "controllerPathGlobs": [
+        "./**/*.route.ts"
+    ],
+    "spec": {
+        "outputDirectory": "build-warehouse",
+        "specVersion": 3,
+        "basePath": "/api"
+    },
+    "routes": {
+        "routesDir": "build-warehouse",
+        "middleware": "koa"
+    }
+}

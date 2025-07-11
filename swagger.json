@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "TSOA",
+    "version": "1.0.0",
+    "description": "Build swagger-compliant REST APIs using TypeScript and Node",
+    "license": {
+      "name": "MIT"
+    },
+    "contact": {
+      "name": "unknown"
+    }
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "paths": {
+    "/orders": {
+      "get": {
+        "operationId": "GetOrders",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": []
+      },
+      "post": {
+        "operationId": "CreateOrder",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "books": {
+                    "items": {
+                      "$ref": "#/components/schemas/BookID"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "books"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse/{bookId}": {
+      "get": {
+        "operationId": "GetBookOnShelf",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/BookID"
+            }
+          }
+        ]
+      }
+    },
+    "/warehouse": {
+      "post": {
+        "operationId": "CreateOrUpdateBookStock",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "numberOfBooks": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "bookId": {
+                    "$ref": "#/components/schemas/BookID"
+                  },
+                  "shelf": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "numberOfBooks",
+                  "bookId",
+                  "shelf"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse/fulfill/{orderId}": {
+      "put": {
+        "operationId": "FulfillOrder",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "quantity": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "bookId": {
+                    "$ref": "#/components/schemas/BookID"
+                  }
+                },
+                "required": [
+                  "quantity",
+                  "bookId"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BookID": {
+        "type": "string"
+      }
+    },
+    "responses": {},
+    "parameters": {},
+    "examples": {},
+    "requestBodies": {},
+    "headers": {}
+  }
+}

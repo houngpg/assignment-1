@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * assignment-1
- * This is a template repository for the first assignment in BVD 103 at McMaster Continuing Education.
+ * TSOA
+ * Build swagger-compliant REST APIs using TypeScript and Node
  *
  * The version of the OpenAPI document: 1.0.0
  * 

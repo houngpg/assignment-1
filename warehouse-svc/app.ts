@@ -1,7 +1,7 @@
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import qs from "koa-qs";
-import { RegisterRoutes } from "./build-orders/routes";
+import { RegisterRoutes } from "./build-warehouse/routes";
 import KoaRouter from "koa-router";
 import { koaSwagger } from "koa2-swagger-ui";
 import swagger from "../swagger.json"

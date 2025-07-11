@@ -1,0 +1,16 @@
+{
+    "entryFile": "./server.ts",
+    "noImplicitAdditionalProperties": "throw-on-extras",
+    "controllerPathGlobs": [
+        "./**/*.route.ts"
+    ],
+    "spec": {
+        "outputDirectory": "build-orders",
+        "specVersion": 3,
+        "basePath": "/api"
+    },
+    "routes": {
+        "routesDir": "build-orders",
+        "middleware": "koa"
+    }
+}

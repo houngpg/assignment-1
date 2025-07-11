@@ -2,6 +2,7 @@ import { client, shelfCollection, orderCollection } from "../../shared-utils/mon
 import { BookID } from "../constants/bookTypes";
 import { ShelfId, OrderId } from "../constants/warehouseTypes";
 import { ObjectId } from "mongodb";
+import amqp from 'amqplib/callback_api';
 
 const createOrUpdateBookStock = async (bookId: BookID, numberOfBooks: number, shelf: ShelfId) => {
     await client.connect();
@@ -40,6 +41,29 @@ const findBookOnShelf = async (bookId: BookID) => {
     }];
 }
 
+const sendMessage = (message: string) => {
+    amqp.connect('amqp://rabbitmq:5672', function (error0, connection) {
+        if (error0) {
+            throw error0;
+        }
+        connection.createChannel(function (error1, channel) {
+            if (error1) {
+                throw error1;
+            }
+            const queue = 'fulfill_order_queue';
+
+            channel.assertQueue(queue, {
+                durable: false
+            });
+
+            channel.sendToQueue(queue, Buffer.from(message));
+            console.log(" [x] Sent %s", message);
+        });
+        setTimeout(function () {
+            connection.close();
+        }, 500);
+    });
+}
 
 const fulfillOrder = async (fulfillBody: Array<{
     book: BookID;
@@ -48,7 +72,6 @@ const fulfillOrder = async (fulfillBody: Array<{
 }>, orderId: OrderId) => {
 
     await client.connect();
-
 
     // loop through fulfillBody 
     for (const fulfillment of fulfillBody) {
@@ -78,6 +101,11 @@ const fulfillOrder = async (fulfillBody: Array<{
         { _id: { $eq: ObjectId.createFromHexString(orderId.trim()) } },
         { $set: { fulfilled: true } }
     )
+
+    sendMessage(JSON.stringify({
+        orderId: orderId,
+        fulfilled: true
+    }))
 
     await client.close()
 

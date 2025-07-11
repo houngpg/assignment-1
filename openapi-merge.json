@@ -1,0 +1,11 @@
+{
+    "inputs": [
+        {
+            "inputFile": "./orders-svc/build-orders/swagger.json"
+        },
+        {
+            "inputFile": "./warehouse-svc/build-warehouse/swagger.json"
+        }
+    ],
+    "output": "./swagger.json"
+}

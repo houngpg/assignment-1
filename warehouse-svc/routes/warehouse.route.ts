@@ -2,7 +2,7 @@ import { Controller, Get, Path, Route, Request, Post, Body, Put } from "tsoa";
 import { type Request as KoaRequest } from 'koa'
 
 import { createOrUpdateBookStock, findBookOnShelf, fulfillOrder } from '../controllers/warehouse'; // Import the controller function to get all orders
-import { BookID } from '../constants/bookTypes';
+import { BookID } from '../constants/bookTypes'; // Import the BookID type
 const srcPrefix = 'src.routes';
 
 @Route('warehouse')

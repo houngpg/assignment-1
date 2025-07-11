@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * assignment-1
- * This is a template repository for the first assignment in BVD 103 at McMaster Continuing Education.
+ * TSOA
+ * Build swagger-compliant REST APIs using TypeScript and Node
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -43,10 +43,6 @@ export interface FulfillOrderOperationRequest {
 
 export interface GetBookOnShelfRequest {
     bookId: string;
-}
-
-export interface GetGreetingRequest {
-    name: string;
 }
 
 /**
@@ -221,45 +217,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getBookOnShelf(requestParameters: GetBookOnShelfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.getBookOnShelfRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async getGreetingRaw(requestParameters: GetGreetingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        if (requestParameters['name'] == null) {
-            throw new runtime.RequiredError(
-                'name',
-                'Required parameter "name" was null or undefined when calling getGreeting().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/hello/{name}`;
-        urlPath = urlPath.replace(`{${"name"}}`, encodeURIComponent(String(requestParameters['name'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<string>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     */
-    async getGreeting(requestParameters: GetGreetingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.getGreetingRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

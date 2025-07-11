@@ -22,13 +22,21 @@ services:
     volumes:
       - ./data:/data/db
 
+  # server:
+  #   image: node:20
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #   command: >
+  #     npx -y tsx ./src/server.ts
+
   server1:
     image: node:20
     working_dir: /app
     volumes:
       - ./:/app
     command: >
-      npx -y tsx ./src/server.ts
+      npx -y tsx ./orders-svc/server.ts
 
   server2:
     image: node:20
@@ -36,12 +44,7 @@ services:
     volumes:
       - ./:/app
     command: >
-      npx -y tsx ./src/server.ts
+      npx -y tsx ./warehouse-svc/server.ts
 
-  server3:
-    image: node:20
-    working_dir: /app
-    volumes:
-      - ./:/app
-    command: >
-      npx -y tsx ./src/server.ts
+  rabbitmq:
+    image: rabbitmq:latest
