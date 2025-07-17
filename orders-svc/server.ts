@@ -3,10 +3,11 @@ import amqp from 'amqplib/callback_api';
 
 const PORT = 3000;
 
+const { RABBITMQ_HOST, RABBITMQ_PORT } = process.env;
+
 startServer(PORT);
 
-
-amqp.connect('amqp://rabbitmq:5672', function (error0, connection) {
+amqp.connect(`amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}`, function (error0, connection) {
     if (error0) {
         throw error0;
     }

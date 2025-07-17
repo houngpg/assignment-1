@@ -42,7 +42,10 @@ const findBookOnShelf = async (bookId: BookID) => {
 }
 
 const sendMessage = (message: string) => {
-    amqp.connect('amqp://rabbitmq:5672', function (error0, connection) {
+
+    const { RABBITMQ_HOST, RABBITMQ_PORT } = process.env;
+
+    amqp.connect(`amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}`, function (error0, connection) {
         if (error0) {
             throw error0;
         }

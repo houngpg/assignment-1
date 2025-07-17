@@ -1,0 +1,6 @@
+FROM node:20
+WORKDIR /orders-svc
+COPY . .
+RUN npm install --production
+CMD ["npx", "-y", "tsx", "./orders-svc/server.ts"]
+EXPOSE 3000
